@@ -25,14 +25,17 @@ public class TrainersService {
         return trainerList.stream().map(Trainer::toTrainerVO).collect(Collectors.toList());
     }
 
-    public TrainerVO addTrainer(Trainer trainer) {
-        trainer.setId(++index);
+    public TrainerVO addTrainer(TrainerVO trainerVO) {
+        trainerVO.setId(++index);
+        Trainer trainer = trainerVO.toTrainer();
+        trainer.setGrouped("false");
         return trainersRepository.save(trainer).toTrainerVO();
     }
 
     public void deleteTrainer(long id) {
         try{
             trainersRepository.deleteById(id);
+            index--;
         }catch (Exception e){
             throw new NotFindException();
         }

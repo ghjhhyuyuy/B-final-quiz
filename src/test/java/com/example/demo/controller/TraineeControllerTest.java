@@ -76,14 +76,14 @@ class TraineeControllerTest {
     @Test
     @Order(4)
     void should_delete_trainee_when_exists() throws Exception {
-        mockMvc.perform(delete("/trainees/{trainer_id}", 1L))
+        mockMvc.perform(delete("/trainees/{trainee_id}", 1L))
                 .andExpect(status().isNoContent());
 
     }
     @Test
     @Order(5)
     void should_return_404_when_id_not_exist() throws Exception {
-        mockMvc.perform(delete("/trainees/{trainer_id}", 123L))
+        mockMvc.perform(delete("/trainees/{trainee_id}", 123L))
                 .andExpect(status().isNotFound());
     }
 

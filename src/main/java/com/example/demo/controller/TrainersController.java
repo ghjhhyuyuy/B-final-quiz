@@ -26,12 +26,12 @@ public class TrainersController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TrainerVO addTrainer(@RequestBody @Valid Trainer trainer){
+    public TrainerVO addTrainer(@RequestBody @Valid TrainerVO trainer){
         return trainersService.addTrainer(trainer);
     }
-    @DeleteMapping("{trainee_id}")
+    @DeleteMapping("{trainer_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTrainer(@PathVariable("trainee_id") long id){
+    public void deleteTrainer(@PathVariable("trainer_id") long id){
         trainersService.deleteTrainer(id);
     }
 }
