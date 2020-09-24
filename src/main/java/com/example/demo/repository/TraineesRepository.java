@@ -14,4 +14,6 @@ import java.util.List;
 @Repository
 public interface TraineesRepository extends CrudRepository<Trainee,Long> {
     List<Trainee> findByGrouped(String grouped);
+    @Override
+    List<Trainee> findAll();
 }

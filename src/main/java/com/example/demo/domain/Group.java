@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import java.util.List;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by wzw on 2020/9/24.
@@ -16,9 +17,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "team")
 public class Group {
+    @Id
     private long id;
     private String name;
-    private List<Trainer> trainers;
-    private List<Trainee> trainees;
+    private String trainers;
+    private String trainees;
 }

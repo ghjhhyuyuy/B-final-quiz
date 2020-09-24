@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.Group;
 import com.example.demo.domain.Trainee;
 import com.example.demo.domain.Trainer;
 import org.junit.jupiter.api.*;
@@ -13,14 +12,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.IOException;
-import java.util.List;
-
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /**
  * Created by wzw on 2020/9/24.
@@ -37,6 +31,7 @@ public class GroupsControllerTest {
     private JacksonTester<Trainee> traineeJson;
     @Autowired
     private JacksonTester<Trainer> trainerJson;
+    private Trainer trainer;
     @BeforeEach
     public void setup() throws Exception {
         Trainee trainee = Trainee.builder()
@@ -47,7 +42,7 @@ public class GroupsControllerTest {
                 .zoomId("67889")
                 .grouped("false")
                 .build();
-        Trainer trainer = Trainer.builder()
+        trainer = Trainer.builder()
                 .name("Panda")
                 .grouped("false")
                 .build();
@@ -60,13 +55,25 @@ public class GroupsControllerTest {
         mockMvc.perform(post("/trainers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(trainerJson.write(trainer).getJson()));
-        mockMvc.perform(post("/trainers")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(trainerJson.write(trainer).getJson()));
     }
     @Test
     @Order(1)
+    void should_return_400_when_Trainee_is_too_less() throws Exception {
+        mockMvc.perform(post("/groups/auto-grouping"))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    @Order(2)
     void should_return_group_list_after_create() throws Exception {
+        mockMvc.perform(post("/trainers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(trainerJson.write(trainer).getJson()));
+        mockMvc.perform(post("/trainers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(trainerJson.write(trainer).getJson()));
+        mockMvc.perform(post("/trainers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(trainerJson.write(trainer).getJson()));
         mockMvc.perform(post("/groups/auto-grouping"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -74,21 +81,33 @@ public class GroupsControllerTest {
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     void should_return_group_list() throws Exception {
         mockMvc.perform(get("/groups"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name", is("组1")));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void should_change_group_name() throws Exception {
         mockMvc.perform(patch("/groups/{group_id}",1L)
                 .content("haha"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name", is("haha")));
+                .andExpect(jsonPath("$", is("haha")));
+    }
+    @Test
+    @Order(5)
+    void should_return_404_when_id_not_exist() throws Exception {
+        mockMvc.perform(patch("/groups/{group_id}", 123L)
+                .content("haha"))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    @Order(6)
+    void should_return_400_when_name_repeat() throws Exception {
+        mockMvc.perform(patch("/groups/{group_id}", 1L)
+                .content("组2"))
+                .andExpect(status().isBadRequest());
     }
 }

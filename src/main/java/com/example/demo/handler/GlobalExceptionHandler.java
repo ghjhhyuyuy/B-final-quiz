@@ -1,6 +1,8 @@
 package com.example.demo.handler;
 
+import com.example.demo.exception.NameRepeatException;
 import com.example.demo.exception.NotFindException;
+import com.example.demo.exception.TooLessTrainerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -31,6 +33,20 @@ public class GlobalExceptionHandler {
         error.setMessage("参数检查出错");
         detailsMap.put(exception.toString(),exception.getMessage());
         error.setDetails(detailsMap);
+        return ResponseEntity.status(state).body(error);
+    }
+    @ExceptionHandler(TooLessTrainerException.class)
+    public ResponseEntity<Error> handle(TooLessTrainerException exception) {
+        HttpStatus state = HttpStatus.BAD_REQUEST;
+        Error error = new Error();
+        error.setMessage("讲师太少不足与分组");
+        return ResponseEntity.status(state).body(error);
+    }
+    @ExceptionHandler(NameRepeatException.class)
+    public ResponseEntity<Error> handle(NameRepeatException exception) {
+        HttpStatus state = HttpStatus.BAD_REQUEST;
+        Error error = new Error();
+        error.setMessage("命名重复");
         return ResponseEntity.status(state).body(error);
     }
 }
