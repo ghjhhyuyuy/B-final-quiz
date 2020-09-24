@@ -94,9 +94,15 @@ public class GroupsService {
             String traineeString = "";
             String trainerString = "";
             for (int i1 = 0; i1 < groupTrainee.size(); i1++) {
+                Trainee trainee = groupTrainee.get(i1);
+                trainee.setGrouped("true");
+                traineesRepository.save(trainee);
                 traineeString = traineeString +"," +groupTrainee.get(i1).getId();
             }
             for (int i1 = 0; i1 < groupTrainer.size(); i1++) {
+                Trainer trainer = groupTrainer.get(i1);
+                trainer.setGrouped("true");
+                trainersRepository.save(trainer);
                 trainerString = trainerString + "," +groupTrainer.get(i1).getId();
             }
             group.setTrainees(traineeString.substring(1));
@@ -111,9 +117,15 @@ public class GroupsService {
             String traineeString = "";
             String trainerString = "";
             for (int i1 = 0; i1 < groupTrainee.size(); i1++) {
+                Trainee trainee = groupTrainee.get(i1);
+                trainee.setGrouped("true");
+                traineesRepository.save(trainee);
                 traineeString = traineeString + "," +groupTrainee.get(i1).getId();
             }
             for (int i1 = 0; i1 < groupTrainer.size(); i1++) {
+                Trainer trainer = groupTrainer.get(i1);
+                trainer.setGrouped("true");
+                trainersRepository.save(trainer);
                 trainerString = trainerString + "," +groupTrainer.get(i1).getId();
             }
             group.setTrainees(traineeString.substring(1));
@@ -131,9 +143,15 @@ public class GroupsService {
             String traineeString = "";
             String trainerString = "";
             for (int i1 = 0; i1 < groupTrainee.size(); i1++) {
+                Trainee trainee = groupTrainee.get(i1);
+                trainee.setGrouped("true");
+                traineesRepository.save(trainee);
                 traineeString = traineeString +","+ groupTrainee.get(i1).getId();
             }
             for (int i1 = 0; i1 < groupTrainer.size(); i1++) {
+                Trainer trainer = groupTrainer.get(i1);
+                trainer.setGrouped("true");
+                trainersRepository.save(trainer);
                 trainerString = trainerString +","+ groupTrainer.get(i1).getId();
             }
             Group group = new Group(i,"组" + (i + 1),trainerString.substring(1), traineeString.substring(1));
@@ -146,9 +164,15 @@ public class GroupsService {
             String traineeString = "";
             String trainerString = "";
             for (int i1 = 0; i1 < groupTrainee.size(); i1++) {
+                Trainee trainee = groupTrainee.get(i1);
+                trainee.setGrouped("true");
+                traineesRepository.save(trainee);
                 traineeString = traineeString +","+ groupTrainee.get(i1).getId();
             }
             for (int i1 = 0; i1 < groupTrainer.size(); i1++) {
+                Trainer trainer = groupTrainer.get(i1);
+                trainer.setGrouped("true");
+                trainersRepository.save(trainer);
                 trainerString = trainerString +","+ groupTrainer.get(i1).getId();
             }
             Group group = new Group(i + moreInLine,"组" + (i + moreInLine + 1), trainerString.substring(1),traineeString.substring(1));
