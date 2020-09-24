@@ -27,7 +27,7 @@ class TrainersControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private JacksonTester<Trainer> userJson;
+    private JacksonTester<Trainer> trainerJson;
     private Trainer trainer;
     private Trainer inValidTrainer;
     @BeforeEach
@@ -43,7 +43,7 @@ class TrainersControllerTest {
     void should_add_trainer_when_valid() throws Exception {
         mockMvc.perform(post("/trainers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(userJson.write(trainer).getJson()))
+                .content(trainerJson.write(trainer).getJson()))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is("Panda")))
@@ -55,7 +55,7 @@ class TrainersControllerTest {
     void should_return_400_when_inValid() throws Exception {
         mockMvc.perform(post("/trainers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(userJson.write(inValidTrainer).getJson()))
+                .content(trainerJson.write(inValidTrainer).getJson()))
                 .andExpect(status().isBadRequest());
     }
     @Test

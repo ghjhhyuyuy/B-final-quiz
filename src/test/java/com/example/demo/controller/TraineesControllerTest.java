@@ -25,13 +25,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureJsonTesters
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @PropertySource(value = "classpath:application-test.yml",encoding = "UTF-8")
-class TraineeControllerTest {
+class TraineesControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private JacksonTester<Trainee> userJson;
+    private JacksonTester<Trainee> traineeJson;
     private Trainee trainee;
-    private Trainee inValidTrainer;
+    private Trainee inValidTrainee;
     @BeforeEach
     public void setup(){
         trainee = Trainee.builder()
@@ -42,14 +42,14 @@ class TraineeControllerTest {
                 .zoomId("67889")
                 .grouped("false")
                 .build();
-        inValidTrainer = Trainee.builder().build();
+        inValidTrainee = Trainee.builder().build();
     }
     @Test
     @Order(1)
     void should_add_trainee_when_valid() throws Exception {
         mockMvc.perform(post("/trainees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(userJson.write(trainee).getJson()))
+                .content(traineeJson.write(trainee).getJson()))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is("Panda")))
@@ -61,7 +61,7 @@ class TraineeControllerTest {
     void should_return_400_when_inValid() throws Exception {
         mockMvc.perform(post("/trainees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(userJson.write(inValidTrainer).getJson()))
+                .content(traineeJson.write(inValidTrainee).getJson()))
                 .andExpect(status().isBadRequest());
     }
     @Test
