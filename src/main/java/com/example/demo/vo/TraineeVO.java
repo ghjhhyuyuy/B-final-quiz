@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Created by wzw on 2020/9/24.
  */
@@ -14,8 +12,11 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TrainerVO {
+public class TraineeVO {
     private long id;
-    @NotNull
     private String name;
+    private String office;
+    private String github;
+    private String email;
+    private String zoomId;
 }
